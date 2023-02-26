@@ -1,6 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-
+import express from "express";
+import cors from "cors";
+import sequelize from "./db/config/db";
+import routes from "./routes";
 const port = process.env.PORT || 8000;
 
 const app = express();
@@ -9,9 +10,13 @@ app.use(cors());
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
-app.get("/", (_: any, res: any) => {
-  res.send("Hello World!");
-});
-
+routes(app);
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+})();
 export default app;
