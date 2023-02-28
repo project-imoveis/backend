@@ -40,7 +40,7 @@ export default class UsuarioController {
       });
       return res.status(201).json(usuario);
     } catch (err: any) {
-      return res.status(500).json({ message: "Erro ao criar usuario", err: err });
+      return res.status(500).json({ defaultMsg: "Erro ao criar usuario", detailMsg: err.message });
     }
   }
 
@@ -66,7 +66,9 @@ export default class UsuarioController {
       );
       return res.status(200).json({ message: "usuario atualizado com sucesso" });
     } catch (err: any) {
-      return res.status(500).json({ message: "Erro ao atualizar usuario", err: err });
+      return res
+        .status(500)
+        .json({ defaultMsg: "Erro ao atualizar usuario", detailMsg: err.message });
     }
   }
 
