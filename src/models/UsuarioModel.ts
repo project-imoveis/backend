@@ -2,16 +2,19 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../db/config/db";
 import ImovelModel from "./ImovelModel";
 
-class CorretorModel extends Model {
+class UsuarioModel extends Model {
   public id!: number;
   public name!: string;
   public password!: string;
   public creci!: string;
   public email!: string;
   public tel!: string;
+  public createdAt!: Date;
+  public updatedAt!: Date;
+  public deletedAt!: Date;
 }
 
-CorretorModel.init(
+UsuarioModel.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -27,16 +30,16 @@ CorretorModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    creci: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     tel: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    ativo: {
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     createdAt: {
@@ -47,14 +50,20 @@ CorretorModel.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
-    tableName: "Corretores",
+    tableName: "Usuarios",
     sequelize,
+    paranoid: true,
   }
 );
-CorretorModel.hasMany(ImovelModel, {
-  foreignKey: "id_corretor",
+
+UsuarioModel.hasMany(ImovelModel, {
+  foreignKey: "id_usuario",
   sourceKey: "id",
 });
-export default CorretorModel;
+export default UsuarioModel;

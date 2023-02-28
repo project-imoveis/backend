@@ -36,11 +36,11 @@ module.exports = {
       tipo_de_uso: {
         type: Sequelize.STRING,
       },
-      id_corretor: {
+      id_usuario: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: "Corretores",
+          model: "Usuarios",
           key: "id",
         },
         onUpdate: "CASCADE",

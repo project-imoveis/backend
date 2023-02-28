@@ -1,10 +1,10 @@
-import { Model, DataTypes, ForeignKey } from "sequelize";
+import { Model, DataTypes, ForeignKey, ModelStatic } from "sequelize";
 import sequelize from "../db/config/db";
-import CorretorModel from "./CorretorModel";
+import UsuarioModel from "./UsuarioModel";
 
 class ImovelModel extends Model {
   public id!: number;
-  public id_corretor!: ForeignKey<number>;
+  public id_usuario!: ForeignKey<number>;
   public titulo!: string;
   public descricao!: string;
   public valor!: number;
@@ -13,6 +13,11 @@ class ImovelModel extends Model {
   public area_total!: number;
   public tipo_de_anuncio!: string;
   public tipo_de_uso!: string;
+  public createdAt!: Date;
+  public updatedAt!: Date;
+  static associate(models: any) {
+    ImovelModel.belongsTo(UsuarioModel, { foreignKey: "id_usuario" });
+  }
 }
 
 ImovelModel.init(
@@ -23,7 +28,7 @@ ImovelModel.init(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    id_corretor: {
+    id_usuario: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -74,5 +79,5 @@ ImovelModel.init(
     sequelize,
   }
 );
-ImovelModel.belongsTo(CorretorModel, { foreignKey: "id_corretor" });
+//ImovelModel.belongsTo(Model.Usuarios, { foreignKey: "id_usuario" });
 export default ImovelModel;
