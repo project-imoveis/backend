@@ -11,6 +11,7 @@ module.exports = {
       },
       titulo: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
       descricao: {

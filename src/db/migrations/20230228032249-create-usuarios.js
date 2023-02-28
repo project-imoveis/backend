@@ -11,18 +11,20 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       password: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       email: {
         type: Sequelize.STRING,
-      },
-      creci: {
-        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
       tel: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: true,

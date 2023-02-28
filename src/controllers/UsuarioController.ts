@@ -4,10 +4,7 @@ import { Request, Response } from "express";
 export default class UsuarioController {
   static async getAll(req: Request, res: Response) {
     try {
-      const usuario = await UsuarioModel.findAll({
-        attributes: { exclude: ["password"] },
-        order: [["id", "ASC"]],
-      });
+      const usuario = await UsuarioModel.findAll();
       return res.status(200).json(usuario);
     } catch (err: any) {
       return res.status(500).send(err.message);

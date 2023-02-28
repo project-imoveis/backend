@@ -35,6 +35,7 @@ ImovelModel.init(
     titulo: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     descricao: {
       type: DataTypes.TEXT,
@@ -77,6 +78,10 @@ ImovelModel.init(
     tableName: "Imoveis",
     timestamps: false,
     sequelize,
+    defaultScope: {
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+      order: [["createdAt", "DESC"]],
+    },
   }
 );
 //ImovelModel.belongsTo(Model.Usuarios, { foreignKey: "id_usuario" });
