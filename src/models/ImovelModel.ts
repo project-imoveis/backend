@@ -1,26 +1,8 @@
-import { Model, DataTypes, ForeignKey, ModelStatic } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../db/config/db";
-import UsuarioModel from "./UsuarioModel";
 
-class ImovelModel extends Model {
-  public id!: number;
-  public id_usuario!: ForeignKey<number>;
-  public titulo!: string;
-  public descricao!: string;
-  public valor!: number;
-  public iptu!: number;
-  public area_util!: number;
-  public area_total!: number;
-  public tipo_de_anuncio!: string;
-  public tipo_de_uso!: string;
-  public createdAt!: Date;
-  public updatedAt!: Date;
-  static associate(models: any) {
-    ImovelModel.belongsTo(UsuarioModel, { foreignKey: "id_usuario" });
-  }
-}
-
-ImovelModel.init(
+export const ImovelModel = sequelize.define(
+  "Imoveis",
   {
     id: {
       allowNull: false,
@@ -30,6 +12,7 @@ ImovelModel.init(
     },
     id_usuario: {
       type: DataTypes.INTEGER,
+
       allowNull: false,
     },
     titulo: {
@@ -76,13 +59,9 @@ ImovelModel.init(
   },
   {
     tableName: "Imoveis",
-    timestamps: false,
-    sequelize,
     defaultScope: {
       attributes: { exclude: ["createdAt", "updatedAt"] },
       order: [["createdAt", "DESC"]],
     },
   }
 );
-//ImovelModel.belongsTo(Model.Usuarios, { foreignKey: "id_usuario" });
-export default ImovelModel;

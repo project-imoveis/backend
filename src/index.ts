@@ -1,5 +1,5 @@
 import express from "express";
-import sequelize from "./db/config/db";
+import db from "./db/config/db";
 import routes from "./routes";
 const port = process.env.PORT || 8000;
 
@@ -11,7 +11,7 @@ app.listen(port, () => {
 routes(app);
 (async () => {
   try {
-    await sequelize.authenticate();
+    await db.authenticate();
     console.log("Connection has been established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);

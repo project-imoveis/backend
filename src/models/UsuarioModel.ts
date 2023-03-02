@@ -1,20 +1,12 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../db/config/db";
-import ImovelModel from "./ImovelModel";
-
-class UsuarioModel extends Model {
-  public id!: number;
-  public name!: string;
-  public password!: string;
-  public creci!: string;
-  public email!: string;
-  public tel!: string;
-  public createdAt!: Date;
-  public updatedAt!: Date;
-  public deletedAt!: Date;
-}
-
-UsuarioModel.init(
+import { DataTypes } from "sequelize";
+import db from "../db/config/db";
+import { ImovelModel } from "./ImovelModel";
+import { CorretorModel } from "./CorretorModel";
+import { ImobiliariaModel } from "./ImobiliariaModel";
+import { PessoaFisicaModel } from "./PessoaFisicaModel";
+import { PessoaJuridicaModel } from "./PessoaJuridicaModel";
+export const UsuarioModel = db.define(
+  "Usuario",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -60,6 +52,10 @@ UsuarioModel.init(
       allowNull: true,
       defaultValue: true,
     },
+    tipo_de_usuario: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -75,7 +71,6 @@ UsuarioModel.init(
   },
   {
     tableName: "Usuarios",
-    sequelize,
     paranoid: true,
     defaultScope: {
       order: [["id", "ASC"]],
@@ -94,9 +89,43 @@ UsuarioModel.init(
     },
   }
 );
-
 UsuarioModel.hasMany(ImovelModel, {
   foreignKey: "id_usuario",
   sourceKey: "id",
+  scope: {},
+  as: "Imoveis",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
-export default UsuarioModel;
+UsuarioModel.hasMany(CorretorModel, {
+  foreignKey: "id_usuario",
+  sourceKey: "id",
+  scope: {},
+  as: "Corretor",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+UsuarioModel.hasMany(ImobiliariaModel, {
+  foreignKey: "id_usuario",
+  sourceKey: "id",
+  scope: {},
+  as: "Imobiliaria",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+UsuarioModel.hasMany(PessoaFisicaModel, {
+  foreignKey: "id_usuario",
+  sourceKey: "id",
+  scope: {},
+  as: "PessoaFisica",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+UsuarioModel.hasMany(PessoaJuridicaModel, {
+  foreignKey: "id_usuario",
+  sourceKey: "id",
+  scope: {},
+  as: "PessoaJuridica",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});

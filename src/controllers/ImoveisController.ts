@@ -1,10 +1,12 @@
-import ImovelModel from "../models/ImovelModel";
+import { ImovelModel } from "../models/ImovelModel";
 import { Request, Response } from "express";
 
 export default class ImoveisController {
   static async getAll(req: Request, res: Response) {
     try {
-      const imoveis = await ImovelModel.findAll({ order: [["id", "ASC"]] });
+      const imoveis = await ImovelModel.findAll({
+        order: [["id", "ASC"]],
+      });
       return res.status(200).json(imoveis);
     } catch (err: any) {
       return res.status(500).send(err);
@@ -26,7 +28,7 @@ export default class ImoveisController {
     try {
       const date = new Date();
       const {
-        id_corretor,
+        id_usuario,
         titulo,
         descricao,
         valor,
@@ -36,8 +38,9 @@ export default class ImoveisController {
         tipo_de_anuncio,
         tipo_de_uso,
       } = req.body;
+
       const imovel = await ImovelModel.create({
-        id_corretor,
+        id_usuario,
         titulo,
         descricao,
         valor,
@@ -60,7 +63,7 @@ export default class ImoveisController {
       const date = new Date();
       const { id } = req.params;
       const {
-        id_corretor,
+        id_usuario,
         titulo,
         descricao,
         valor,
@@ -72,7 +75,7 @@ export default class ImoveisController {
       } = req.body;
       const imovel = await ImovelModel.update(
         {
-          id_corretor,
+          id_usuario,
           titulo,
           descricao,
           valor,

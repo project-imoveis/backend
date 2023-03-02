@@ -2,42 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Imoveis", {
+    await queryInterface.createTable("PessoasJuridicas", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      titulo: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      descricao: {
-        type: Sequelize.STRING,
-      },
-      valor: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      iptu: {
-        type: Sequelize.INTEGER,
-      },
-      area_util: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      area_total: {
-        type: Sequelize.INTEGER,
-      },
-      tipo_de_anuncio: {
-        type: Sequelize.STRING,
-      },
-      tipo_de_uso: {
-        type: Sequelize.STRING,
-      },
       id_usuario: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "Usuarios",
@@ -45,6 +17,11 @@ module.exports = {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+        allowNull: false,
+      },
+      cnpj: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: true,
@@ -54,9 +31,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Imoveis");
+    await queryInterface.dropTable("PessoasJuridicas");
   },
 };

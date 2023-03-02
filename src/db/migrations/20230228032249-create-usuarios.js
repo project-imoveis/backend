@@ -22,9 +22,18 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      tipo_de_usuario: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       tel: {
         type: Sequelize.STRING,
         allowNull: true,
+      },
+      ativo: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: true,
       },
       createdAt: {
         allowNull: true,
