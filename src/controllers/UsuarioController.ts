@@ -132,7 +132,7 @@ export default class UsuarioController {
   static async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { name, password, creci, email, tel } = req.body;
+      const { name, password, creci, email, tel, tipo_de_usuario } = req.body;
       await UsuarioModel.update(
         {
           name,
@@ -140,6 +140,7 @@ export default class UsuarioController {
           creci,
           email,
           tel,
+          tipo_de_usuario,
         },
         {
           where: {
@@ -147,6 +148,49 @@ export default class UsuarioController {
           },
         }
       );
+      if (tipo_de_usuario == "corretor") {
+        const { creci, cpf } = req.body;
+        await CorretorModel.update(
+          {
+            creci,
+            cpf,
+          },
+          {
+            where: { id_usuario: Number(id) },
+          }
+        );
+      } else if (tipo_de_usuario == "imobiliaria") {
+        const { cnpj, creci } = req.body;
+        await ImobiliariaModel.update(
+          {
+            cnpj,
+            creci,
+          },
+          {
+            where: { id_usuario: Number(id) },
+          }
+        );
+      } else if (tipo_de_usuario == "pessoaFisica") {
+        const { cpf } = req.body;
+        await PessoaFisicaModel.update(
+          {
+            cpf,
+          },
+          {
+            where: { id_usuario: Number(id) },
+          }
+        );
+      } else if (tipo_de_usuario == "pessoaJuridica") {
+        const { cnpj } = req.body;
+        await PessoaJuridicaModel.update(
+          {
+            cnpj,
+          },
+          {
+            where: { id_usuario: Number(id) },
+          }
+        );
+      }
       return res.status(200).json({ message: "usuario atualizado com sucesso" });
     } catch (err: any) {
       return res
@@ -158,28 +202,24 @@ export default class UsuarioController {
   static async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await database.transaction(async (t: Transaction) => {
-        //set transaction to all models
-        await UsuarioModel.destroy({
+      await UsuarioModel.destroy({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      await UsuarioModel.update(
+        {
+          ativo: false,
+        },
+        {
           where: {
             id: Number(id),
           },
-          transaction: t,
-          force: true,
-        });
-        await UsuarioModel.update(
-          {
-            ativo: false,
-          },
-          {
-            where: {
-              id: Number(id),
-            },
-            transaction: t,
-          }
-        );
-        return res.status(200).json({ message: "usuario deletado com sucesso" });
-      });
+          paranoid: false,
+        }
+      );
+      return res.status(200).json({ message: "usuario deletado com sucesso" });
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao deletar usuario", err: err });
     }
