@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
 import { UsuarioRepository } from "../repository/UsuarioRepository";
-
-import database from "../db/config/db";
-import { Transaction } from "sequelize";
-
 import Models from "../models";
 
 export default class UsuarioController {
@@ -20,10 +16,12 @@ export default class UsuarioController {
     try {
       const { id } = req.params;
       const usuario = await UsuarioRepository.getbyIdWithType(Number(id));
-      if (!usuario) return res.status(404).json({ message: "usuario não encontrado" });
-      return res.json({ usuario });
+      if (!usuario) throw new Error();
+      return res.status(200).json(usuario);
     } catch (err: any) {
-      return res.status(500).json({ message: err.message });
+      return res
+        .status(404)
+        .json({ message: `Não foi possivel encontrar o usuario ${req.params.id}`, err: err });
     }
   }
 
@@ -34,7 +32,7 @@ export default class UsuarioController {
       const tipoDeUsuario = usuario.getDataValue("tipo_de_usuario");
       return res.status(201).json({ usuario, [tipoDeUsuario]: usuarioComTipo });
     } catch (err: any) {
-      return res.status(500).json({ defaultMsg: "Erro ao criar usuario", detailMsg: err.message });
+      return res.status(500).json({ message: "Erro ao criar usuario", err: err });
     }
   }
 
@@ -45,9 +43,7 @@ export default class UsuarioController {
       await UsuarioRepository.update(Number(id), body);
       return res.status(200).json({ message: "usuario atualizado com sucesso" });
     } catch (err: any) {
-      return res
-        .status(500)
-        .json({ defaultMsg: "Erro ao atualizar usuario", detailMsg: err.message });
+      return res.status(500).json({ message: "Erro ao atualizar usuario", err: err });
     }
   }
 

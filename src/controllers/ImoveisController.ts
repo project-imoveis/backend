@@ -15,9 +15,12 @@ export default class ImoveisController {
     try {
       const { id } = req.params;
       const imovel = await ImovelRepository.getById(Number(id));
-      return res.json(imovel);
+      if (!imovel) throw new Error();
+      return res.status(200).json(imovel);
     } catch (err: any) {
-      return res.status(404).json({ message: "Imovel não encontrado", err: err });
+      return res
+        .status(404)
+        .json({ message: `Não foi possivel encontrar o imovel ${req.params.id}`, err: err });
     }
   }
 
@@ -33,14 +36,10 @@ export default class ImoveisController {
 
   static async update(req: Request, res: Response) {
     try {
+      const { body } = req;
       const { id } = req.params;
-
-      const body = req.body;
-
       const status = await ImovelRepository.update(Number(id), body);
-
-      if (!status) return res.status(404).json({ message: "Imovel não encontrado" });
-
+      if (!status) throw new Error("Imovel não encontrado");
       return res.json({ message: "Imovel atualizado com sucesso" });
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao atualizar imovel", err: err });
@@ -50,11 +49,8 @@ export default class ImoveisController {
   static async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-
       const status = await ImovelRepository.delete(Number(id));
-
-      if (!status) return res.status(404).json({ message: "Imovel não encontrado" });
-
+      if (!status) throw new Error("Imovel não encontrado");
       return res.json({ message: "Imovel deletado com sucesso" });
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao deletar imovel", err: err });
