@@ -48,17 +48,10 @@ export const ImovelModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
   },
   {
     tableName: "Imoveis",
+    timestamps: true,
     defaultScope: {
       attributes: { exclude: ["createdAt", "updatedAt"] },
       order: [["createdAt", "DESC"]],

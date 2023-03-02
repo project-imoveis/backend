@@ -17,14 +17,6 @@ export const PessoaFisicaModel = sequelize.define(
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -32,6 +24,7 @@ export const PessoaFisicaModel = sequelize.define(
   },
   {
     tableName: "PessoasFisicas",
+    timestamps: true,
     paranoid: true,
     defaultScope: {
       attributes: { exclude: ["deletedAt", "createdAt", "updatedAt"] },

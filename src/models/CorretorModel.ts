@@ -18,14 +18,6 @@ export const CorretorModel = sequelize.define(
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -34,6 +26,7 @@ export const CorretorModel = sequelize.define(
   {
     tableName: "Corretores",
     paranoid: true,
+    timestamps: true,
     defaultScope: {
       attributes: { exclude: ["deletedAt", "createdAt", "updatedAt"] },
     },

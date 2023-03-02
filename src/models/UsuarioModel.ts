@@ -56,14 +56,6 @@ export const UsuarioModel = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -72,9 +64,9 @@ export const UsuarioModel = db.define(
   {
     tableName: "Usuarios",
     paranoid: true,
+    timestamps: true,
     defaultScope: {
       order: [["id", "ASC"]],
-      where: { ativo: true },
       attributes: { exclude: ["password", "deletedAt", "createdAt", "updatedAt"] },
     },
     scopes: {

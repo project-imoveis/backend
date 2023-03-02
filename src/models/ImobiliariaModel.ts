@@ -18,14 +18,6 @@ export const ImobiliariaModel = sequelize.define(
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -34,6 +26,7 @@ export const ImobiliariaModel = sequelize.define(
   {
     tableName: "Imobiliarias",
     paranoid: true,
+    timestamps: true,
     defaultScope: {
       attributes: { exclude: ["deletedAt", "createdAt", "updatedAt"] },
     },
