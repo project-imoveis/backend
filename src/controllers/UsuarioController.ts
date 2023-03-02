@@ -5,8 +5,8 @@ import { CorretorModel } from "../models/CorretorModel";
 import { ImobiliariaModel } from "../models/ImobiliariaModel";
 import { PessoaFisicaModel } from "../models/PessoaFisicaModel";
 import { PessoaJuridicaModel } from "../models/PessoaJuridicaModel";
-import { Sequelize } from "sequelize";
-
+import database from "../db/config/db";
+import { Sequelize, Transaction } from "sequelize";
 export default class UsuarioController {
   static async getAll(req: Request, res: Response) {
     try {
@@ -67,59 +67,63 @@ export default class UsuarioController {
   }
 
   static async create(req: Request, res: Response) {
-    const date = new Date();
     try {
       const { name, password, email, tel, tipo_de_usuario } = req.body;
-      const usuario = await UsuarioModel.create({
-        name,
-        password,
-        email,
-        tel,
-        tipo_de_usuario,
-        createdAt: date,
-        updatedAt: date,
+      await database.transaction(async (t: Transaction) => {
+        const usuario = await UsuarioModel.create(
+          {
+            name,
+            password,
+            email,
+            tel,
+            tipo_de_usuario,
+          },
+          { transaction: t }
+        );
+        if (tipo_de_usuario == "corretor") {
+          const { creci, cpf } = req.body;
+          const corretor = await CorretorModel.create(
+            {
+              creci,
+              cpf,
+              id_usuario: usuario.dataValues.id,
+            },
+            { transaction: t }
+          );
+          return res.status(201).json({ usuario, corretor });
+        } else if (tipo_de_usuario == "imobiliaria") {
+          const { cnpj, creci } = req.body;
+          const imobiliaria = await ImobiliariaModel.create(
+            {
+              cnpj,
+              creci,
+              id_usuario: usuario.dataValues.id,
+            },
+            { transaction: t }
+          );
+          return res.status(201).json({ usuario, imobiliaria });
+        } else if (tipo_de_usuario == "pessoaFisica") {
+          const { cpf } = req.body;
+          const pessoaFisica = await PessoaFisicaModel.create(
+            {
+              cpf,
+              id_usuario: usuario.dataValues.id,
+            },
+            { transaction: t }
+          );
+          return res.status(201).json({ usuario, pessoaFisica });
+        } else if (tipo_de_usuario == "pessoaJuridica") {
+          const { cnpj } = req.body;
+          const pessoaJuridica = await PessoaJuridicaModel.create(
+            {
+              cnpj,
+              id_usuario: usuario.dataValues.id,
+            },
+            { transaction: t }
+          );
+          return res.status(201).json({ usuario, pessoaJuridica });
+        }
       });
-      console.log("Usuario criado: ", usuario);
-
-      if (tipo_de_usuario == "corretor") {
-        const { creci, cpf } = req.body;
-        const corretor = await CorretorModel.create({
-          creci,
-          cpf,
-          id_usuario: usuario.dataValues.id,
-          createdAt: date,
-          updatedAt: date,
-        });
-        return res.status(201).json({ usuario, corretor });
-      } else if (tipo_de_usuario == "imobiliaria") {
-        const { cnpj, creci } = req.body;
-        const imobiliaria = await ImobiliariaModel.create({
-          cnpj,
-          creci,
-          id_usuario: usuario.dataValues.id,
-          createdAt: date,
-          updatedAt: date,
-        });
-        return res.status(201).json({ usuario, imobiliaria });
-      } else if (tipo_de_usuario == "pessoaFisica") {
-        const { cpf } = req.body;
-        const pessoaFisica = await PessoaFisicaModel.create({
-          cpf,
-          id_usuario: usuario.dataValues.id,
-          createdAt: date,
-          updatedAt: date,
-        });
-        return res.status(201).json({ usuario, pessoaFisica });
-      } else if (tipo_de_usuario == "pessoaJuridica") {
-        const { cnpj } = req.body;
-        const pessoaJuridica = await PessoaJuridicaModel.create({
-          cnpj,
-          id_usuario: usuario.dataValues.id,
-          createdAt: date,
-          updatedAt: date,
-        });
-        return res.status(201).json({ usuario, pessoaJuridica });
-      }
     } catch (err: any) {
       return res.status(500).json({ defaultMsg: "Erro ao criar usuario", detailMsg: err.message });
     }
@@ -127,17 +131,15 @@ export default class UsuarioController {
 
   static async update(req: Request, res: Response) {
     try {
-      const date = new Date();
       const { id } = req.params;
       const { name, password, creci, email, tel } = req.body;
-      const usuario = await UsuarioModel.update(
+      await UsuarioModel.update(
         {
           name,
           password,
           creci,
           email,
           tel,
-          updatedAt: date,
         },
         {
           where: {
@@ -156,23 +158,28 @@ export default class UsuarioController {
   static async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await UsuarioModel.update(
-        {
-          ativo: false,
-        },
-        {
+      await database.transaction(async (t: Transaction) => {
+        //set transaction to all models
+        await UsuarioModel.destroy({
           where: {
             id: Number(id),
           },
-        }
-      );
-      const usuario = await UsuarioModel.destroy({
-        where: {
-          id: Number(id),
-        },
+          transaction: t,
+          force: true,
+        });
+        await UsuarioModel.update(
+          {
+            ativo: false,
+          },
+          {
+            where: {
+              id: Number(id),
+            },
+            transaction: t,
+          }
+        );
+        return res.status(200).json({ message: "usuario deletado com sucesso" });
       });
-      if (!usuario) return res.status(404).json({ message: "usuario não encontrado" });
-      return res.status(200).json({ message: "usuario deletado com sucesso" });
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao deletar usuario", err: err });
     }
@@ -186,6 +193,16 @@ export default class UsuarioController {
           id: Number(id),
         },
       });
+      await UsuarioModel.update(
+        {
+          ativo: true,
+        },
+        {
+          where: {
+            id: Number(id),
+          },
+        }
+      );
       return res.status(200).json({ message: "usuario restaurado com sucesso" });
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao restaurar usuario", err: err });
