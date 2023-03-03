@@ -4,10 +4,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "PessoasJuridicas",
+      "LegalPersons",
       [
         {
-          id_usuario: 5,
+          user_id: 5,
           cnpj: "450000650000024",
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -18,6 +18,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("PessoasJuridicas", null, {});
+    await queryInterface.bulkDelete("LegalPersons", null, {});
   },
 };

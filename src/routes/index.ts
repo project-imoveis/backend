@@ -1,6 +1,6 @@
 import express, { Response, Express } from "express";
-import usuarioRoutes from "./usuarioRoutes";
-import imovelRoutes from "./imoveisRoutes";
+import userRoutes from "./userRoutes";
+import propertyRoutes from "./propertyRoutes";
 import cors from "cors";
 
 const routes = (app: Express) => {
@@ -10,8 +10,8 @@ const routes = (app: Express) => {
     res.status(200).send("Hello worlds!");
   });
 
-  app.use(express.json(), usuarioRoutes);
-  app.use(express.json(), imovelRoutes);
+  app.use(express.json(), userRoutes);
+  app.use(express.json(), propertyRoutes);
 };
 
 export default routes;

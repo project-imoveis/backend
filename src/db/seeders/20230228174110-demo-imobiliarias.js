@@ -7,7 +7,7 @@ module.exports = {
       "Imobiliarias",
       [
         {
-          id_usuario: 3,
+          user_id: 3,
           creci: "505050",
           cnpj: "394000000000059",
           createdAt: new Date(),

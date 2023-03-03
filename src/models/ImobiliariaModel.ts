@@ -10,9 +10,25 @@ export const ImobiliariaModel = sequelize.define(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    cnpj: { type: DataTypes.STRING, allowNull: false },
-    creci: { type: DataTypes.STRING, allowNull: false },
-    id_usuario: {
+    cnpj: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "O campo de cnpj não pode estar vazio",
+        },
+      },
+    },
+    creci: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "O campo do creci não pode estar vazio",
+        },
+      },
+    },
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       onUpdate: "CASCADE",

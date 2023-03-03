@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { UsuarioRepository } from "../repository/UsuarioRepository";
+import { UserRepository } from "../repository/UserRepository";
 import Models from "../models";
 
-export default class UsuarioController {
+export default class UserController {
   static async getAll(req: Request, res: Response) {
     try {
-      const usuario = await UsuarioRepository.getAll();
-      return res.status(200).json(usuario);
+      const user = await UserRepository.getAll();
+      return res.status(200).json(user);
     } catch (err: any) {
       return res.status(500).send(err.message);
     }
@@ -15,24 +15,24 @@ export default class UsuarioController {
   static async getById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const usuario = await UsuarioRepository.getbyIdWithType(Number(id));
-      if (!usuario) throw new Error();
-      return res.status(200).json(usuario);
+      const user = await UserRepository.getbyIdWithType(Number(id));
+      if (!user) throw new Error();
+      return res.status(200).json(user);
     } catch (err: any) {
       return res
         .status(404)
-        .json({ message: `Não foi possivel encontrar o usuario ${req.params.id}`, err: err });
+        .json({ message: `Não foi possivel encontrar o user ${req.params.id}`, err: err });
     }
   }
 
-  static async create(req: Request, res: Response) {
+  static async register(req: Request, res: Response) {
     try {
       const body = req.body;
-      const { usuario, usuarioComTipo } = await UsuarioRepository.create(body);
-      const tipoDeUsuario = usuario.getDataValue("tipo_de_usuario");
-      return res.status(201).json({ usuario, [tipoDeUsuario]: usuarioComTipo });
+      const { user, userWithType } = await UserRepository.register(body);
+      const userType = user.getDataValue("user_type");
+      return res.status(201).json({ user, [userType]: userWithType });
     } catch (err: any) {
-      return res.status(500).json({ message: "Erro ao criar usuario", err: err });
+      return res.status(500).json({ message: "Erro ao criar usuario", err: err.message });
     }
   }
 
@@ -40,17 +40,25 @@ export default class UsuarioController {
     try {
       const { id } = req.params;
       const body = req.body;
-      await UsuarioRepository.update(Number(id), body);
+      await UserRepository.update(Number(id), body);
       return res.status(200).json({ message: "usuario atualizado com sucesso" });
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao atualizar usuario", err: err });
     }
   }
-
+  static async login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+      const user = await UserRepository.login(email, password);
+      if (!user) throw new Error();
+      return res.status(200).json(user);
+    } catch (err) {
+      res.status(400).json({ message: "Email ou senha incorretos" });
+    }
+  }
   static async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-
       return res.status(200).json({ message: "usuario deletado com sucesso" });
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao deletar usuario", err: err });
@@ -60,12 +68,12 @@ export default class UsuarioController {
   static async restoreById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await Models.Usuario.restore({
+      await Models.User.restore({
         where: {
           id: Number(id),
         },
       });
-      await Models.Usuario.update(
+      await Models.User.update(
         {
           ativo: true,
         },

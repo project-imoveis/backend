@@ -2,17 +2,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("PessoasJuridicas", {
+    await queryInterface.createTable("LegalPersons", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      id_usuario: {
+      user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Usuarios",
+          model: "Users",
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -38,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("PessoasJuridicas");
+    await queryInterface.dropTable("LegalPersons");
   },
 };

@@ -1,12 +1,27 @@
 import { DataTypes } from "sequelize";
 import db from "../db/config/db";
-import { ImovelModel } from "./ImovelModel";
+import { PropertyModel } from "./PropertyModel";
 import { CorretorModel } from "./CorretorModel";
 import { ImobiliariaModel } from "./ImobiliariaModel";
-import { PessoaFisicaModel } from "./PessoaFisicaModel";
-import { PessoaJuridicaModel } from "./PessoaJuridicaModel";
-export const UsuarioModel = db.define(
-  "Usuario",
+import { NaturalPersonModel } from "./LegalPersonModel";
+import { LegalPersonModel } from "./NaturalPersonModel";
+
+export type IUserResponse = {
+  id: string;
+  name: string;
+  email: string;
+  user_type: string;
+};
+export interface IUser {
+  name: string;
+  email: string;
+  password: string;
+  telefone: string;
+  user_type: string;
+}
+
+export const UserModel = db.define(
+  "Users",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,7 +33,12 @@ export const UsuarioModel = db.define(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        notNull: {
+          msg: "O campo de nome não pode ser nulo.",
+        },
+        notEmpty: {
+          msg: "O campo de nome não pode estar vazio.",
+        },
         len: [3, 100],
       },
     },
@@ -26,7 +46,12 @@ export const UsuarioModel = db.define(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        notNull: {
+          msg: "O campo de senha não pode ser nulo.",
+        },
+        notEmpty: {
+          msg: "O campo de senha não pode estar vazio.",
+        },
       },
     },
     email: {
@@ -35,26 +60,36 @@ export const UsuarioModel = db.define(
       unique: true,
       validate: {
         isEmail: {
-          msg: "Email inválido",
+          msg: "Formato de email inválido",
         },
+        notEmpty: true,
       },
     },
-    tel: {
+    telefone: {
       type: DataTypes.STRING,
       allowNull: true,
       unique: true,
       validate: {
         isNumeric: true,
+        notEmpty: true,
       },
     },
-    ativo: {
+    active: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: true,
     },
-    tipo_de_usuario: {
+    user_type: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notNull: {
+          msg: "O campo de tipo não pode ser nulo.",
+        },
+        notEmpty: {
+          msg: "O campo de tipo não pode estar vazio.",
+        },
+      },
     },
     deletedAt: {
       type: DataTypes.DATE,
@@ -62,7 +97,7 @@ export const UsuarioModel = db.define(
     },
   },
   {
-    tableName: "Usuarios",
+    tableName: "Users",
     paranoid: true,
     timestamps: true,
     defaultScope: {
@@ -76,48 +111,48 @@ export const UsuarioModel = db.define(
       },
       verifyPassword: {
         where: {},
-        attributes: { include: ["password"] },
+        attributes: { include: ["password"], exclude: ["deletedAt", "createdAt", "updatedAt"] },
       },
     },
   }
 );
-UsuarioModel.hasMany(ImovelModel, {
-  foreignKey: "id_usuario",
+UserModel.hasMany(PropertyModel, {
+  foreignKey: "user_id",
   sourceKey: "id",
   scope: {},
-  as: "Imoveis",
+  as: "Properties",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-UsuarioModel.hasMany(CorretorModel, {
-  foreignKey: "id_usuario",
+UserModel.hasMany(CorretorModel, {
+  foreignKey: "user_id",
   sourceKey: "id",
   scope: {},
   as: "Corretor",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-UsuarioModel.hasMany(ImobiliariaModel, {
-  foreignKey: "id_usuario",
+UserModel.hasMany(ImobiliariaModel, {
+  foreignKey: "user_id",
   sourceKey: "id",
   scope: {},
   as: "Imobiliaria",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-UsuarioModel.hasMany(PessoaFisicaModel, {
-  foreignKey: "id_usuario",
+UserModel.hasMany(NaturalPersonModel, {
+  foreignKey: "user_id",
   sourceKey: "id",
   scope: {},
-  as: "PessoaFisica",
+  as: "NaturalPerson",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-UsuarioModel.hasMany(PessoaJuridicaModel, {
-  foreignKey: "id_usuario",
+UserModel.hasMany(LegalPersonModel, {
+  foreignKey: "user_id",
   sourceKey: "id",
   scope: {},
-  as: "PessoaJuridica",
+  as: "LegalPerson",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });

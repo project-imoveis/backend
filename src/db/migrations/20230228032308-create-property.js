@@ -2,38 +2,49 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Usuarios", {
+    await queryInterface.createTable("Properties", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
-        type: Sequelize.STRING,
+      title: {
         allowNull: false,
-      },
-      password: {
         type: Sequelize.STRING,
+      },
+      description: {
+        type: Sequelize.STRING,
+      },
+      value: {
         allowNull: false,
+        type: Sequelize.INTEGER,
       },
-      email: {
-        type: Sequelize.STRING,
+      iptu: {
+        type: Sequelize.INTEGER,
+      },
+      useful_area: {
         allowNull: false,
-        unique: true,
+        type: Sequelize.INTEGER,
       },
-      tipo_de_usuario: {
+      total_area: {
+        type: Sequelize.INTEGER,
+      },
+      post_type: {
         type: Sequelize.STRING,
+      },
+      usage_type: {
+        type: Sequelize.STRING,
+      },
+      user_id: {
         allowNull: false,
-      },
-      tel: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      ativo: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true,
-        defaultValue: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: true,
@@ -43,13 +54,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      deletedAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Usuarios");
+    await queryInterface.dropTable("Properties");
   },
 };

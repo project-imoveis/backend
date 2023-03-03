@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/config/db";
 
-export const ImovelModel = sequelize.define(
-  "Imoveis",
+export const PropertyModel = sequelize.define(
+  "Properties",
   {
     id: {
       allowNull: false,
@@ -10,21 +10,21 @@ export const ImovelModel = sequelize.define(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    id_usuario: {
+    user_id: {
       type: DataTypes.INTEGER,
 
       allowNull: false,
     },
-    titulo: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    descricao: {
+    description: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    valor: {
+    value: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -32,25 +32,25 @@ export const ImovelModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    area_util: {
+    useful_area: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    area_total: {
+    total_area: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    tipo_de_anuncio: {
+    post_type: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    tipo_de_uso: {
+    usage_type: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
-    tableName: "Imoveis",
+    tableName: "Properties",
     timestamps: true,
     defaultScope: {
       attributes: { exclude: ["createdAt", "updatedAt"] },

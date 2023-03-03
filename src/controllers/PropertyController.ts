@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { ImovelRepository } from "../repository/imovelRepository";
+import { PropertyRepository } from "../repository/PropertyRepository";
 
-export default class ImoveisController {
+export default class PropertiesController {
   static async getAll(req: Request, res: Response) {
     try {
-      const imoveis = await ImovelRepository.getAll();
+      const imoveis = await PropertyRepository.getAll();
       return res.status(200).json(imoveis);
     } catch (err: any) {
       return res.status(500).send(err);
@@ -14,9 +14,9 @@ export default class ImoveisController {
   static async getById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const imovel = await ImovelRepository.getById(Number(id));
-      if (!imovel) throw new Error();
-      return res.status(200).json(imovel);
+      const property = await PropertyRepository.getById(Number(id));
+      if (!property) throw new Error();
+      return res.status(200).json(property);
     } catch (err: any) {
       return res
         .status(404)
@@ -27,8 +27,8 @@ export default class ImoveisController {
   static async create(req: Request, res: Response) {
     try {
       const body = req.body;
-      const imovel = await ImovelRepository.create(body);
-      return res.status(201).json(imovel);
+      const property = await PropertyRepository.create(body);
+      return res.status(201).json(property);
     } catch (err: any) {
       return res.status(500).json({ message: "Erro ao criar imovel", err: err });
     }
@@ -38,7 +38,7 @@ export default class ImoveisController {
     try {
       const { body } = req;
       const { id } = req.params;
-      const status = await ImovelRepository.update(Number(id), body);
+      const status = await PropertyRepository.update(Number(id), body);
       if (!status) throw new Error("Imovel não encontrado");
       return res.json({ message: "Imovel atualizado com sucesso" });
     } catch (err: any) {
@@ -49,7 +49,7 @@ export default class ImoveisController {
   static async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const status = await ImovelRepository.delete(Number(id));
+      const status = await PropertyRepository.delete(Number(id));
       if (!status) throw new Error("Imovel não encontrado");
       return res.json({ message: "Imovel deletado com sucesso" });
     } catch (err: any) {

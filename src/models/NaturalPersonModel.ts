@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/config/db";
 
-export const PessoaFisicaModel = sequelize.define(
-  "PessoasFisicas",
+export const LegalPersonModel = sequelize.define(
+  "LegalPersons",
   {
     id: {
       allowNull: false,
@@ -10,12 +10,21 @@ export const PessoaFisicaModel = sequelize.define(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    cpf: { type: DataTypes.STRING, allowNull: false },
-    id_usuario: {
+
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
+    },
+    cnpj: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "O campo de cnpj não pode estar vazio",
+        },
+      },
     },
     deletedAt: {
       type: DataTypes.DATE,
@@ -23,9 +32,9 @@ export const PessoaFisicaModel = sequelize.define(
     },
   },
   {
-    tableName: "PessoasFisicas",
-    timestamps: true,
+    tableName: "LegalPersons",
     paranoid: true,
+    timestamps: true,
     defaultScope: {
       attributes: { exclude: ["deletedAt", "createdAt", "updatedAt"] },
     },

@@ -1,15 +1,15 @@
-import { ImovelModel } from "./ImovelModel";
-import { UsuarioModel } from "./UsuarioModel";
+import { PropertyModel } from "./PropertyModel";
+import { UserModel } from "./UserModel";
 import { CorretorModel } from "./CorretorModel";
 import { ImobiliariaModel } from "./ImobiliariaModel";
-import { PessoaFisicaModel } from "./PessoaFisicaModel";
-import { PessoaJuridicaModel } from "./PessoaJuridicaModel";
+import { NaturalPersonModel } from "./LegalPersonModel";
+import { LegalPersonModel } from "./NaturalPersonModel";
 
 export default {
-  Imovel: ImovelModel,
-  Usuario: UsuarioModel,
+  Property: PropertyModel,
+  User: UserModel,
   Corretor: CorretorModel,
   Imobiliaria: ImobiliariaModel,
-  PessoaFisica: PessoaFisicaModel,
-  PessoaJuridica: PessoaJuridicaModel,
+  NaturalPerson: NaturalPersonModel,
+  LegalPerson: LegalPersonModel,
 };

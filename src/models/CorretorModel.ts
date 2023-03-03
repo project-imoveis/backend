@@ -10,9 +10,25 @@ export const CorretorModel = sequelize.define(
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    cpf: { type: DataTypes.STRING, allowNull: false },
-    creci: { type: DataTypes.STRING, allowNull: false },
-    id_usuario: {
+    cpf: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "cpf não pode ser nulo",
+        },
+      },
+    },
+    creci: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "creci não pode ser nulo",
+        },
+      },
+    },
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       onUpdate: "CASCADE",
