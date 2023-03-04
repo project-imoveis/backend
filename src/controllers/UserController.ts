@@ -24,7 +24,17 @@ export default class UserController {
         .json({ message: `Não foi possivel encontrar o user ${req.params.id}`, err: err });
     }
   }
-
+  static async getByIdWithProperties(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const user = await UserRepository.getByIdWithProperties(Number(id));
+      return res.status(200).json(user);
+    } catch (err: any) {
+      return res
+        .status(404)
+        .json({ message: `Não foi possivel encontrar o user ${req.params.id}`, err: err });
+    }
+  }
   static async register(req: Request, res: Response) {
     try {
       const body = req.body;

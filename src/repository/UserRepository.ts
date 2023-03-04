@@ -35,7 +35,11 @@ export class UserRepository {
     });
     return usuarioComTipo;
   }
-
+  static async getByIdWithProperties(id: number) {
+    return await Models.User.findByPk(id, {
+      include: { model: Models.Property, as: "Properties" },
+    });
+  }
   static async update(id: number, body: any) {
     const { name, password, email, telefone, user_type, creci, cpf, cnpj } = body;
     await Models.User.update(
