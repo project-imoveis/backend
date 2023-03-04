@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/config/db";
+import { AddressModel } from "./AddressModel";
 
 export const PropertyModel = sequelize.define(
   "Properties",
@@ -61,8 +62,18 @@ export const PropertyModel = sequelize.define(
     tableName: "Properties",
     timestamps: true,
     defaultScope: {
-      attributes: { exclude: ["createdAt", "updatedAt"] },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
       order: [["createdAt", "DESC"]],
     },
   }
 );
+PropertyModel.hasOne(AddressModel, {
+  foreignKey: "property_id",
+  sourceKey: "id",
+  scope: {},
+  as: "Address",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});

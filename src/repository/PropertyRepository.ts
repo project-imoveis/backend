@@ -1,14 +1,20 @@
+import { Sequelize, Transaction } from "sequelize";
+import database from "../db/config/db";
 import Models from "../models";
+import { AddressModel } from "../models/AddressModel";
 
 export class PropertyRepository {
   static async getAll() {
     const properties = await Models.Property.findAll({
+      include: [{ model: AddressModel, as: "Address" }],
       order: [["id", "ASC"]],
     });
     return properties;
   }
   static async getById(id: number) {
-    const property = await Models.Property.findByPk(id);
+    const property = await Models.Property.findByPk(id, {
+      include: [{ model: AddressModel, as: "Address" }],
+    });
     return property;
   }
   static async create(body: any) {
@@ -24,19 +30,35 @@ export class PropertyRepository {
       usage_type,
       unit_type,
       subunit_type,
+      address,
     } = body;
-    return Models.Property.create({
-      user_id,
-      title,
-      description,
-      value,
-      iptu,
-      useful_area,
-      total_area,
-      post_type,
-      usage_type,
-      unit_type,
-      subunit_type,
+    console.log(address);
+    return database.transaction(async (t: Transaction) => {
+      const propertyCreated = await Models.Property.create({
+        user_id,
+        title,
+        description,
+        value,
+        iptu,
+        useful_area,
+        total_area,
+        post_type,
+        usage_type,
+        unit_type,
+        subunit_type,
+      });
+      const { zipcode, city, state, neighborhood, street } = address;
+      const property_id = propertyCreated.getDataValue("id");
+      const addressCreated = await Models.Address.create({
+        zipcode,
+        city,
+        state,
+        neighborhood,
+        street,
+        property_id,
+        user_id,
+      });
+      return { propertyCreated, addressCreated };
     });
   }
   static async update(id: number, body: any) {
