@@ -48,6 +48,14 @@ export const PropertyModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    unit_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    subunit_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     tableName: "Properties",

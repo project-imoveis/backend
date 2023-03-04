@@ -9,33 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      description: {
-        type: Sequelize.STRING,
-      },
-      value: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      iptu: {
-        type: Sequelize.INTEGER,
-      },
-      useful_area: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      total_area: {
-        type: Sequelize.INTEGER,
-      },
-      post_type: {
-        type: Sequelize.STRING,
-      },
-      usage_type: {
-        type: Sequelize.STRING,
-      },
       user_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -45,6 +18,44 @@ module.exports = {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+      },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      description: {
+        type: Sequelize.STRING,
+      },
+      value: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      iptu: {
+        type: Sequelize.INTEGER,
+      },
+      useful_area: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      total_area: {
+        type: Sequelize.INTEGER,
+      },
+      post_type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      usage_type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      unit_type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      subUnit_type: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: true,

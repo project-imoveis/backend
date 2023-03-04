@@ -22,8 +22,9 @@ export class PropertyRepository {
       total_area,
       post_type,
       usage_type,
+      unit_type,
+      subunit_type,
     } = body;
-
     return Models.Property.create({
       user_id,
       title,
@@ -34,6 +35,8 @@ export class PropertyRepository {
       total_area,
       post_type,
       usage_type,
+      unit_type,
+      subunit_type,
     });
   }
   static async update(id: number, body: any) {
@@ -47,6 +50,8 @@ export class PropertyRepository {
       total_area,
       post_type,
       usage_type,
+      unit_type,
+      subUnit_type,
     } = body;
 
     const property = await Models.Property.update(
@@ -60,6 +65,8 @@ export class PropertyRepository {
         total_area,
         post_type,
         usage_type,
+        unit_type,
+        subUnit_type,
       },
       {
         where: {
