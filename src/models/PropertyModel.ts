@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/config/db";
 import { AddressModel } from "./AddressModel";
+import { ImageModel } from "./ImageModel";
 
 export const PropertyModel = sequelize.define(
   "Properties",
@@ -74,6 +75,14 @@ PropertyModel.hasOne(AddressModel, {
   sourceKey: "id",
   scope: {},
   as: "Address",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+PropertyModel.hasMany(ImageModel, {
+  foreignKey: "property_id",
+  sourceKey: "id",
+  scope: {},
+  as: "Images",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });

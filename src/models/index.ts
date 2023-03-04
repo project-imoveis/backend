@@ -5,11 +5,13 @@ import { ImobiliariaModel } from "./ImobiliariaModel";
 import { NaturalPersonModel } from "./LegalPersonModel";
 import { LegalPersonModel } from "./NaturalPersonModel";
 import { AddressModel } from "./AddressModel";
+import { ImageModel } from "./ImageModel";
 
 export default {
   Property: PropertyModel,
   User: UserModel,
   Address: AddressModel,
+  Images: ImageModel,
   Corretor: CorretorModel,
   Imobiliaria: ImobiliariaModel,
   NaturalPerson: NaturalPersonModel,
