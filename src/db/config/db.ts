@@ -1,7 +1,13 @@
 import { Sequelize } from "sequelize-typescript";
-
-const sequelize = new Sequelize("imoveis-db", "postgres", "1234", {
-  host: "127.0.0.1",
-  dialect: "postgres",
-});
+import * as dotenv from "dotenv";
+dotenv.config();
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE || "",
+  process.env.DB_USERNAME || "",
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "postgres",
+  }
+);
 export default sequelize;
