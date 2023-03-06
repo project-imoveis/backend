@@ -11,7 +11,7 @@ export default {
   Property: PropertyModel,
   User: UserModel,
   Address: AddressModel,
-  Images: ImageModel,
+  Image: ImageModel,
   Corretor: CorretorModel,
   Imobiliaria: ImobiliariaModel,
   NaturalPerson: NaturalPersonModel,

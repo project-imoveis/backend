@@ -45,7 +45,6 @@ export default class UserController {
       return res.status(500).json({ message: "Erro ao criar usuario", err: err.message });
     }
   }
-
   static async update(req: Request, res: Response) {
     try {
       const { id } = req.params;

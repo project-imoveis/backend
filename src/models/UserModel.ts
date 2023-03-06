@@ -6,6 +6,7 @@ import { ImobiliariaModel } from "./ImobiliariaModel";
 import { NaturalPersonModel } from "./LegalPersonModel";
 import { LegalPersonModel } from "./NaturalPersonModel";
 import { AddressModel } from "./AddressModel";
+import { ImageModel } from "./ImageModel";
 
 export type IUserResponse = {
   id: string;
@@ -125,7 +126,15 @@ UserModel.hasMany(PropertyModel, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-PropertyModel.hasMany(AddressModel, {
+UserModel.hasMany(ImageModel, {
+  foreignKey: "user_id",
+  sourceKey: "id",
+  scope: {},
+  as: "Profile",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+UserModel.hasMany(AddressModel, {
   foreignKey: "user_id",
   sourceKey: "id",
   scope: {},
