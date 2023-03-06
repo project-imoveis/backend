@@ -30,23 +30,34 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      isMain: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      blob: {
-        type: Sequelize.BLOB("long"),
-        allowNull: false,
-      },
-      extension: {
-        type: Sequelize.ENUM,
-        values: ["jpg", "jpeg", "png"],
+      size: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       type: {
-        type: Sequelize.ENUM,
-        values: ["profile", "property"],
+        type: Sequelize.STRING,
         allowNull: false,
+      },
+      key: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      url: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      subtitles: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
