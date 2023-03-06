@@ -1,19 +1,24 @@
 import { Sequelize, Transaction } from "sequelize";
 import database from "../db/config/db";
 import Models from "../models";
-import { AddressModel } from "../models/AddressModel";
 
 export class PropertyRepository {
   static async getAll() {
     const properties = await Models.Property.findAll({
-      include: [{ model: AddressModel, as: "Address" }],
+      include: [
+        { model: Models.Address, as: "Address" },
+        { model: Models.Image, as: "Images" },
+      ],
       order: [["id", "ASC"]],
     });
     return properties;
   }
   static async getById(id: number) {
     const property = await Models.Property.findByPk(id, {
-      include: [{ model: AddressModel, as: "Address" }],
+      include: [
+        { model: Models.Address, as: "Address" },
+        { model: Models.Image, as: "Images" },
+      ],
     });
     return property;
   }
@@ -32,7 +37,6 @@ export class PropertyRepository {
       subunit_type,
       address,
     } = body;
-    console.log(address);
     return database.transaction(async (t: Transaction) => {
       const propertyCreated = await Models.Property.create({
         user_id,
