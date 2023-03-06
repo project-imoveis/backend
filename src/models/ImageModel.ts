@@ -13,28 +13,51 @@ export const ImageModel = sequelize.define(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     property_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      references: {
+        model: "Properties",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
+    },
+    isMain: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    blob: {
-      type: DataTypes.BLOB("long"),
-      allowNull: false,
-    },
-    extension: {
-      type: DataTypes.ENUM,
-      values: ["jpg", "jpeg", "png"],
+    size: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     type: {
-      type: DataTypes.ENUM,
-      values: ["profile", "property"],
+      type: DataTypes.STRING,
       allowNull: false,
+    },
+    key: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    subtitles: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {
