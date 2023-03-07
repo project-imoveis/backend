@@ -9,7 +9,8 @@ dotenv.config();
 const stoaragesTypes = {
   local: multer.diskStorage({
     destination: (req, file, callback) => {
-      const { type } = req.params;
+      const { type = "profile" } = req.params;
+
       callback(null, `./src/public/upload/${type}`);
     },
     filename: (req, file: any, callback) => {
