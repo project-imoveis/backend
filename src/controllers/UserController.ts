@@ -8,7 +8,7 @@ export default class UserController {
       const user = await UserRepository.getAll();
       return res.status(200).json(user);
     } catch (err: any) {
-      return res.status(500).send(err.message);
+      return res.status(400).send(err.message);
     }
   }
 
@@ -42,7 +42,7 @@ export default class UserController {
       const userType = user.getDataValue("user_type");
       return res.status(201).json({ user, [userType]: userWithType });
     } catch (err: any) {
-      return res.status(500).json({ message: "Erro ao criar usuario", err: err.message });
+      return res.status(400).json({ message: "Erro ao criar usuario", err: err.message });
     }
   }
   static async update(req: Request, res: Response) {
@@ -52,7 +52,7 @@ export default class UserController {
       await UserRepository.update(Number(id), body);
       return res.status(200).json({ message: "usuario atualizado com sucesso" });
     } catch (err: any) {
-      return res.status(500).json({ message: "Erro ao atualizar usuario", err: err });
+      return res.status(400).json({ message: "Erro ao atualizar usuario", err: err });
     }
   }
   static async login(req: Request, res: Response) {
@@ -70,7 +70,7 @@ export default class UserController {
       const { id } = req.params;
       return res.status(200).json({ message: "usuario deletado com sucesso" });
     } catch (err: any) {
-      return res.status(500).json({ message: "Erro ao deletar usuario", err: err });
+      return res.status(400).json({ message: "Erro ao deletar usuario", err: err });
     }
   }
 
@@ -94,7 +94,7 @@ export default class UserController {
       );
       return res.status(200).json({ message: "usuario restaurado com sucesso" });
     } catch (err: any) {
-      return res.status(500).json({ message: "Erro ao restaurar usuario", err: err });
+      return res.status(400).json({ message: "Erro ao restaurar usuario", err: err });
     }
   }
 }

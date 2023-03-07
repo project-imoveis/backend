@@ -7,7 +7,7 @@ export default class PropertiesController {
       const imoveis = await PropertyRepository.getAll();
       return res.status(200).json(imoveis);
     } catch (err: any) {
-      return res.status(500).send(err);
+      return res.status(400).send(err);
     }
   }
 
@@ -30,7 +30,7 @@ export default class PropertiesController {
       const property = await PropertyRepository.create(body);
       return res.status(201).json(property);
     } catch (err: any) {
-      return res.status(500).json({ message: "Não foi possível criar o imovel", err });
+      return res.status(400).json({ message: "Não foi possível criar o imovel", err });
     }
   }
 
@@ -42,7 +42,7 @@ export default class PropertiesController {
       if (!status) throw new Error("Imovel não encontrado");
       return res.json({ message: "Imovel atualizado com sucesso" });
     } catch (err: any) {
-      return res.status(500).json({ message: "Não foi possível atualizar imovel", err: err });
+      return res.status(400).json({ message: "Não foi possível atualizar imovel", err: err });
     }
   }
 
@@ -53,7 +53,7 @@ export default class PropertiesController {
       if (!status) throw new Error("Imovel não encontrado");
       return res.json({ message: "Imovel deletado com sucesso" });
     } catch (err: any) {
-      return res.status(500).json({ message: "Não foi possível deletar imovel", err: err });
+      return res.status(400).json({ message: "Não foi possível deletar imovel", err: err });
     }
   }
 }
