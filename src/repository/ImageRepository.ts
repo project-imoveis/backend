@@ -8,7 +8,7 @@ dotenv.config();
 
 export class ImageRepository {
   static async uploadPhoto(type: any, body: any, file: any) {
-    const { user_id, property_id } = body;
+    const { user_id, property_id, subtitles, isMain } = body;
     const { originalname: name, size, key, location: url } = file;
     const isLocal = process.env.MULTER_STORAGE == "local";
     let localUrl = "";
@@ -22,6 +22,8 @@ export class ImageRepository {
       size,
       type,
       key,
+      subtitles,
+      isMain,
       url: isLocal ? localUrl : url,
     });
 
