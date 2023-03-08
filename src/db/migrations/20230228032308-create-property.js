@@ -53,7 +53,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      subUnit_type: {
+      subunit_type: {
         type: Sequelize.STRING,
         allowNull: false,
       },
