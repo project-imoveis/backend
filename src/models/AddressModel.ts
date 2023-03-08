@@ -50,5 +50,9 @@ export const AddressModel = sequelize.define(
   {
     modelName: "Addresses",
     timestamps: true,
+    defaultScope: {
+      order: [["id", "ASC"]],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    },
   }
 );

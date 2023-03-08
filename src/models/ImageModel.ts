@@ -63,5 +63,9 @@ export const ImageModel = sequelize.define(
   {
     modelName: "Images",
     timestamps: true,
+    defaultScope: {
+      order: [["id", "ASC"]],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    },
   }
 );
