@@ -56,7 +56,7 @@ const upload = multer({
     }
     return callback(new Error("Invalid file type"));
   },
-}).single("Images");
+}).single("image");
 
 export function ImageMiddleware(req: Request, res: Response, next: NextFunction) {
   upload(req, res, (err: any) => {
