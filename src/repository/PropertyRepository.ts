@@ -1,9 +1,10 @@
-import { Sequelize, Transaction } from "sequelize";
+import { Sequelize, Transaction } from "@sequelize/core";
 import database from "../db/config/db";
 import Models from "../models";
 
 export class PropertyRepository {
   static async getAll() {
+    console.log("getall");
     const properties = await Models.Property.findAll({
       include: [
         { model: Models.Address, as: "Address" },
@@ -11,6 +12,8 @@ export class PropertyRepository {
       ],
       order: [["id", "ASC"]],
     });
+
+    console.log("properties: ", properties);
     return properties;
   }
   static async getById(id: number) {

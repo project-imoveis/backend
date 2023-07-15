@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes } from "@sequelize/core";
 import db from "../db/config/db";
 import { PropertyModel } from "./PropertyModel";
 import { CorretorModel } from "./CorretorModel";
@@ -119,58 +119,72 @@ export const UserModel = db.define(
   }
 );
 UserModel.hasMany(PropertyModel, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "Properties",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 UserModel.hasMany(ImageModel, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "Profile",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 UserModel.hasMany(AddressModel, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "Addresses",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 UserModel.hasMany(CorretorModel, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "Corretor",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 UserModel.hasMany(ImobiliariaModel, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "Imobiliaria",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 UserModel.hasMany(NaturalPersonModel, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "NaturalPerson",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 UserModel.hasMany(LegalPersonModel, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "LegalPerson",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });

@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes } from "@sequelize/core";
 import sequelize from "../db/config/db";
 
 export const ImobiliariaModel = sequelize.define(

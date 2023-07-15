@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize-typescript";
+import { Sequelize } from "@sequelize/core";
 import * as dotenv from "dotenv";
 dotenv.config();
 const sequelize = new Sequelize(

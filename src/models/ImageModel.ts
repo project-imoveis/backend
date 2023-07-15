@@ -1,5 +1,7 @@
-import { DataTypes } from "sequelize";
+import { DataTypes } from "@sequelize/core";
 import sequelize from "../db/config/db";
+import { UserModel } from "./UserModel";
+import { PropertyModel } from "./PropertyModel";
 
 export const ImageModel = sequelize.define(
   "Images",
@@ -13,22 +15,10 @@ export const ImageModel = sequelize.define(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: "Users",
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
     },
     property_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: {
-        model: "Properties",
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
     },
     isMain: {
       type: DataTypes.BOOLEAN,

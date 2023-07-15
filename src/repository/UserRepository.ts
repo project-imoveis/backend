@@ -1,7 +1,7 @@
 import { IUserResponse } from "../models/UserModel";
 import Models from "../models";
 import database from "../db/config/db";
-import { Transaction } from "sequelize";
+import { Transaction } from "@sequelize/core";
 import { AuthServices } from "../services/auth";
 
 export class UserRepository {

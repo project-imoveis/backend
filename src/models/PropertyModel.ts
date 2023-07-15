@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes } from "@sequelize/core";
 import sequelize from "../db/config/db";
 import { AddressModel } from "./AddressModel";
 import { ImageModel } from "./ImageModel";
@@ -14,7 +14,6 @@ export const PropertyModel = sequelize.define(
     },
     user_id: {
       type: DataTypes.INTEGER,
-
       allowNull: false,
     },
     title: {
@@ -71,18 +70,22 @@ export const PropertyModel = sequelize.define(
   }
 );
 PropertyModel.hasOne(AddressModel, {
-  foreignKey: "property_id",
+  foreignKey: {
+    name: "property_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "Address",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
 PropertyModel.hasMany(ImageModel, {
-  foreignKey: "property_id",
+  foreignKey: {
+    name: "property_id",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
   sourceKey: "id",
   scope: {},
   as: "Images",
-  onDelete: "CASCADE",
-  onUpdate: "CASCADE",
 });
